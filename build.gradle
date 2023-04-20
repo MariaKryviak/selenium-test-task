@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.seleniumhq.selenium:selenium-java:4.0.0-alpha-3'
+    implementation 'io.github.bonigarcia:webdrivermanager:3.7.1'
+
+    implementation 'ch.qos.logback:logback-classic:1.2.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.projectlombok:lombok:1.18.26'
+    implementation group: 'commons-configuration', name: 'commons-configuration', version: '1.7'
+    implementation group: 'org.testng', name: 'testng', version: '7.7.1'
+}
+
+test {
+    systemProperties System.getProperties()
+    useTestNG() {
+        includeGroups "all"
+        options.parallel "methods"
+        options.threadCount System.getProperty('threadCount', '2') as int //ask how to use it by java code
+    }
+}
+
+tasks.withType(Test) {
+    testLogging {
+        showStandardStreams true
+    }
+}
