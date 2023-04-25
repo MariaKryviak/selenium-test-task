@@ -25,12 +25,14 @@ test {
     useTestNG() {
         includeGroups "all"
         options.parallel "methods"
-        options.threadCount System.getProperty('threadCount', '2') as int //ask how to use it by java code
+        options.threadCount System.getProperty('threadCount', '2') as int
     }
 }
 
 tasks.withType(Test) {
     testLogging {
         showStandardStreams true
+        events "failed"
+        exceptionFormat "full"
     }
 }

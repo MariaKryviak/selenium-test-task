@@ -10,17 +10,24 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Properties;
 
 @Slf4j
-@Getter
 public class EnvProperties {
 
     private static final String APP_PROP_TPL = "%s-env.properties";
+    @Getter
     private String baseUrl;
+    private static EnvProperties instance;
 
     private void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 
-    public EnvProperties() {
+    public static EnvProperties getInstance() {
+        if (instance == null)
+            instance = new EnvProperties();
+        return instance;
+    }
+
+    private EnvProperties() {
         loadProperties(System.getProperty("environment"));
     }
 
@@ -31,12 +38,9 @@ public class EnvProperties {
 
     @SneakyThrows
     private Properties getEnvProperties(String env) {
-        env = env == null ? "test" : env.toLowerCase();
+        env = env == null ? ENVS.TEST.getDesc() : env.toLowerCase();
         if (ENVS.isEnvExist(env))
             return new FileUtils().readProperties(String.format(APP_PROP_TPL, env));
-        log.warn("No loaded properties for environment [{}]", env);
         throw new EnvNotFoundException(env);
     }
 }
-
-

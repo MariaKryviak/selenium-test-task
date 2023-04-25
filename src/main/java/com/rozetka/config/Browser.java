@@ -14,7 +14,7 @@ public class Browser {
 
     @SneakyThrows
     public WebDriver getWebDriver() {
-        String browserName = new ApplicationProperties().getBrowserName();
+        String browserName = ApplicationProperties.getInstance().getBrowserName();
         log.info("Selected browser: '{}'", browserName);
         switch (browserName.toLowerCase()) {
             case "chrome":

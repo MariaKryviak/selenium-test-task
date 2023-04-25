@@ -14,9 +14,13 @@ public enum ENVS {
         this.desc = desc;
     }
 
+    public String getDesc() {
+        return desc;
+    }
+
     public static boolean isEnvExist(String env) {
         return Stream.of(ENVS.values())
-                .map(value -> value.desc)
+                .map(ENVS::getDesc)
                 .collect(Collectors.toList())
                 .contains(env);
     }
